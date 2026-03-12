@@ -15,7 +15,7 @@ from app.dependencies import set_search_engine
 from app.search.bm25 import BM25Index
 from app.search.vector import VectorIndex
 from app.search.hybrid import HybridSearch
-from app.api import search, ingest, stats
+from app.api import search, ingest, stats, feedback
 
 logging.basicConfig(
     level=logging.INFO,
@@ -123,6 +123,7 @@ def create_app() -> FastAPI:
     app.include_router(search.router, prefix="/api/v1", tags=["search"])
     app.include_router(ingest.router, prefix="/api/v1", tags=["ingest"])
     app.include_router(stats.router,  prefix="/api/v1", tags=["stats"])
+    app.include_router(feedback.router, tags=["feedback"])
 
     return app
 
