@@ -230,24 +230,40 @@ elif page == "KPIs":
     col_left, col_right = st.columns(2)
 
     # ── Request volume by hour ────────────────────────────────────────────
+    # ── Request volume by hour ────────────────────────────────────────────
     with col_left:
         st.subheader("Request volume by hour")
-        vol = df.groupby("hour").size().reset_index(name="count")
+        vol = df.groupby("hour").size().reset_index(name="Requests")
         fig_vol = px.bar(
-            vol, x="hour", y="count",
-            labels={"hour": "Hour", "count": "Requests"},
+            vol, x="hour", y="Requests",
+            labels={"hour": "Hour"},
+            color="Requests",
+            color_continuous_scale="Blues",
         )
-        fig_vol.update_layout(margin=dict(t=20, b=20))
+        fig_vol.update_layout(
+            margin=dict(t=20, b=20),
+            coloraxis_showscale=False,
+            xaxis_tickformat="%H:%M",
+        )
         st.plotly_chart(fig_vol, use_container_width=True, key="kpi_volume")
 
     # ── Latency histogram ─────────────────────────────────────────────────
     with col_right:
         st.subheader("Latency distribution")
+        # cap at 99th percentile to hide outliers
+        p99 = float(ok_lat.quantile(0.99)) if len(ok_lat) else 5000
+        ok_lat_capped = ok_lat[ok_lat <= p99]
         fig_lat = px.histogram(
-            ok_lat, nbins=40,
+            ok_lat_capped, nbins=20,
             labels={"value": "Latency (ms)", "count": "Queries"},
+            color_discrete_sequence=["#4C78A8"],
         )
-        fig_lat.update_layout(showlegend=False, margin=dict(t=20, b=20))
+        fig_lat.update_layout(
+            showlegend=False,
+            margin=dict(t=20, b=20),
+            xaxis_title="Latency (ms)",
+            yaxis_title="Queries",
+        )
         st.plotly_chart(fig_lat, use_container_width=True, key="kpi_latency")
 
     # ── Top 10 queries ────────────────────────────────────────────────────
@@ -260,7 +276,23 @@ elif page == "KPIs":
           .reset_index()
     )
     top_q["avg_latency"] = top_q["avg_latency"].round(1)
-    st.dataframe(top_q, use_container_width=True)
+
+    fig_top = px.bar(
+        top_q, x="count", y="query",
+        orientation="h",
+        labels={"count": "Searches", "query": "Query"},
+        color="avg_latency",
+        color_continuous_scale="Teal",
+        text="count",
+    )
+    fig_top.update_layout(
+        margin=dict(t=20, b=20),
+        yaxis=dict(autorange="reversed"),
+        coloraxis_colorbar=dict(title="Avg ms"),
+        height=350,
+    )
+    fig_top.update_traces(textposition="outside")
+    st.plotly_chart(fig_top, use_container_width=True, key="kpi_top_queries")
 
 
 # ---------------------------------------------------------------------------
