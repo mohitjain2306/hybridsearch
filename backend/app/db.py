@@ -103,12 +103,13 @@ def _run_migrations(conn: sqlite3.Connection) -> None:
 
         # Migration 1 creates query_logs fresh — skip ALTER if table
         # already exists with the column (e.g. on a clean install).
-        if version == 2:
+        if version in (2, 3):
             columns = [
                 row[1] for row in
                 conn.execute("PRAGMA table_info(query_logs)").fetchall()
             ]
-            if "error" in columns:
+            col_name = "error" if version == 2 else "user_id"
+            if col_name in columns:
                 _set_schema_version(conn, version)
                 continue
 

@@ -12,6 +12,12 @@ from pathlib import Path
 import wikipediaapi
 from tqdm import tqdm
 
+# suppress wikipedia-api HTTP request logs
+import logging as _logging
+_logging.getLogger("wikipedia").setLevel(_logging.WARNING)
+_logging.getLogger("urllib3").setLevel(_logging.WARNING)
+_logging.getLogger("requests").setLevel(_logging.WARNING)
+
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------

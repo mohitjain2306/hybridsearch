@@ -1,150 +1,172 @@
-# README.md
-
 # Hybrid Search Engine
 
-A from-scratch search engine that combines old-school keyword matching
-(BM25) with modern semantic embeddings (sentence-transformers + FAISS) into
-a single ranked result list. You pick how much each method contributes at
-query time with a single `alpha` parameter — no reindexing, no restarting.
-Built on FastAPI, logged to SQLite, visualised in Streamlit. Everything
-starts with one command.
+A production-style search engine that combines BM25 (lexical) and sentence-transformers + FAISS (semantic) into a single ranked result list. The blend is controlled by a single `alpha` parameter at query time — no reindexing required. Built on FastAPI, logged to SQLite, visualised in Streamlit.
 
 ---
 
 ## Quickstart
+
 ```bash
 git clone https://github.com/mohitjain2306/hybridsearch.git
-cd hybrid-search
-
+cd hybridsearch
 cp .env.example .env
-
 bash up.sh
 ```
 
-That's it. `up.sh` will:
+`up.sh` will:
+1. Create `.venv` and install CPU-only dependencies (no CUDA)
+2. Initialise the SQLite database with migrations
+3. Skip ingest + indexing if artifacts already exist (pre-built in repo)
+4. Start the FastAPI backend and Streamlit dashboard
+5. Print URLs when ready
 
-1. Create a `.venv` and install dependencies (CPU-only torch, no CUDA)
-2. Initialise the SQLite database
-3. Fetch ~300 Wikipedia articles across 12 topic categories
-4. Build the BM25 index and the FAISS vector index
-5. Generate ground-truth relevance judgments for 25 queries
-6. Run evaluation across 5 alpha values and save `experiments.csv`
-7. Start the API and wait for it to pass a health check
-8. Start the Streamlit dashboard
+On a fresh clone, startup takes under 2 minutes because the corpus and indexes are pre-committed.
 
-Second run skips every step that already has output on disk.
-
-**When it's ready:**
-
-| What | URL |
+| Service | URL |
 |---|---|
 | Dashboard | http://localhost:8501 |
 | API | http://localhost:8000 |
 | Swagger UI | http://localhost:8000/docs |
-| Prometheus metrics | http://localhost:8000/api/v1/metrics |
+| Metrics | http://localhost:8000/api/v1/metrics |
 
-Stop everything with `Ctrl+C` — both servers shut down cleanly.
+Stop everything: `Ctrl+C` — both servers shut down cleanly.
+Stop without Ctrl+C: `bash down.sh`
 
 ---
 
-## API Endpoints
+## How to Run Tests
 
-### `GET /health`
-
-Is the system up and are the indexes loaded?
 ```bash
-curl http://localhost:8000/health
+cd backend
+source ../.venv/bin/activate
+pytest tests/ -v
+```
+
+Run a specific file:
+```bash
+pytest tests/test_bm25.py -v
+pytest tests/test_hybrid.py -v
+pytest tests/test_api.py -v
+pytest tests/test_ingest.py -v
+pytest tests/test_vector.py -v
+```
+
+Run with coverage:
+```bash
+pytest tests/ --cov=app --cov-report=term-missing
+```
+
+The test suite uses an in-memory toy corpus (3 docs: space / hockey / medicine). No real indexes or network calls. All disk I/O uses `pytest`'s `tmp_path` fixture. **120 tests, ~80 seconds on CPU.**
+
+---
+
+## How to Run Evaluation
+
+```bash
+cd backend
+source ../.venv/bin/activate
+
+# Generate qrels (only needed if eval/qrels.json is missing)
+python -m app.generate_qrels
+
+# Run sweep across 5 alpha values
+python -m app.eval
+
+# Custom alphas and cutoff
+python -m app.eval --alphas 0.0 0.25 0.5 0.75 1.0 --k 10
+```
+
+Results are appended to `data/metrics/experiments.csv` with timestamp and git commit:
+
+```
+run,alpha,ndcg_at_10,recall_at_10,mrr,num_queries,timestamp,git_commit
+1,0.0,0.3837,0.36,0.8433,25,2026-03-12T21:11:09+00:00,ee017c3
+2,0.25,0.3871,0.36,0.8600,25,2026-03-12T21:11:09+00:00,ee017c3
+...
+```
+
+The dashboard Evaluation page reads this file and renders nDCG/Recall/MRR trend charts automatically.
+
+---
+
+## API Reference
+
+### `GET /api/v1/health`
+```bash
+curl http://localhost:8000/api/v1/health
 ```
 ```json
 {
-  "status":               "ok",
-  "version":              "1.0.0",
-  "git_commit":           "a3f91bc",
-  "indexes_loaded":       true,
-  "total_queries_served": 142
+  "status": "ok",
+  "version": "1.0.0",
+  "git_commit": "5001ac8",
+  "indexes_loaded": true,
+  "total_queries_served": 42
 }
 ```
-
-If `indexes_loaded` is `false`, run `python -m scripts.build_index` from
-`backend/` and restart the API.
 
 ---
 
 ### `POST /api/v1/search`
-
-The main event. Send a query, get ranked results with per-result score
-breakdown.
 ```bash
 curl -X POST http://localhost:8000/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
     "query": "NASA space exploration missions",
     "alpha": 0.5,
-    "top_k": 3,
+    "top_k": 5,
     "filters": { "category": "space" }
   }'
 ```
 ```json
 {
-  "request_id":   "3f2a1b4c-9e8d-4a2b-b1c0-7f6e5d4c3b2a",
-  "query":        "NASA space exploration missions",
-  "alpha":        0.5,
-  "top_k":        3,
-  "result_count": 3,
-  "latency_ms":   38.4,
+  "request_id": "3f2a1b4c-9e8d-4a2b-b1c0-7f6e5d4c3b2a",
+  "query": "NASA space exploration missions",
+  "alpha": 0.5,
+  "result_count": 5,
+  "latency_ms": 38.4,
   "results": [
     {
-      "doc_id":       "doc_0001_ab12cd34",
-      "title":        "Space Shuttle",
-      "chunk_index":  0,
-      "snippet":      "…**NASA** engineers monitored the **spacecraft** systems…",
-      "category":     "space",
-      "bm25_score":   0.9100,
-      "vector_score": 0.8541,
-      "score":        0.8821
-    },
-    {
-      "doc_id":       "doc_0004_cd34ef56",
-      "title":        "Apollo 11",
-      "chunk_index":  0,
-      "snippet":      "…the first crewed **mission** to land on the Moon…",
-      "category":     "space",
-      "bm25_score":   0.7300,
-      "vector_score": 0.8901,
-      "score":        0.8101
-    },
-    {
-      "doc_id":       "doc_0009_gh78ij90",
-      "title":        "International Space Station",
-      "chunk_index":  0,
-      "snippet":      "…**NASA** and partner agencies maintain a continuous…",
-      "category":     "space",
-      "bm25_score":   0.6800,
-      "vector_score": 0.7200,
-      "score":        0.7000
+      "doc_id": "doc_0001_ab12cd34",
+      "title": "Space Shuttle",
+      "snippet": "…**NASA** engineers monitored the **spacecraft** systems…",
+      "category": "space",
+      "bm25_score": 0.91,
+      "vector_score": 0.85,
+      "score": 0.88
     }
   ]
 }
 ```
 
 **Alpha guide:**
-
 | Alpha | Behaviour |
 |---|---|
-| `1.0` | Pure BM25 — exact keyword match, fast, literal |
-| `0.5` | Balanced — usually the best starting point |
-| `0.0` | Pure vector — semantic, handles synonyms and paraphrases |
+| `1.0` | Pure BM25 — exact keyword match |
+| `0.5` | Balanced — best default |
+| `0.0` | Pure vector — semantic, handles synonyms |
 
-**Filters:** pass `"filters": { "category": "space" }` to restrict results
-to one of: `space medicine technology science history geography economics
-sports culture nature society general`.
+**Available filter categories:** `space medicine technology science history geography economics sports culture nature society general`
+
+---
+
+### `POST /api/v1/feedback`
+Log relevance feedback for a result:
+```bash
+curl -X POST http://localhost:8000/api/v1/feedback \
+  -H "Content-Type: application/json" \
+  -d '{
+    "request_id": "3f2a1b4c-...",
+    "doc_id": "doc_0001_ab12cd34",
+    "relevant": true,
+    "comment": "exactly what I needed"
+  }'
+```
 
 ---
 
 ### `GET /api/v1/metrics`
-
-Prometheus-compatible plain text. Wire this up to a Prometheus scraper or
-just curl it to see live counters.
+Prometheus-compatible plain text:
 ```bash
 curl http://localhost:8000/api/v1/metrics
 ```
@@ -153,257 +175,114 @@ curl http://localhost:8000/api/v1/metrics
 # TYPE search_requests_total counter
 search_requests_total 412
 
-# HELP search_zero_results_total Searches that returned no results
-# TYPE search_zero_results_total counter
-search_zero_results_total 3
-
-# HELP search_latency_p50_ms 50th percentile search latency in ms
+# HELP search_latency_p50_ms 50th percentile latency in ms
 # TYPE search_latency_p50_ms gauge
 search_latency_p50_ms 34.2
 
-# HELP search_latency_p95_ms 95th percentile search latency in ms
+# HELP search_latency_p95_ms 95th percentile latency in ms
 # TYPE search_latency_p95_ms gauge
 search_latency_p95_ms 89.7
 ```
 
 ---
 
-### `GET /api/v1/stats`
+## Hybrid Scoring
 
-Aggregated query statistics for the dashboard.
-```bash
-curl http://localhost:8000/api/v1/stats
+BM25 and vector search each return up to 30 candidates independently. Their doc_id sets are unioned, then fused:
+
 ```
-```json
-{
-  "total_queries":  412,
-  "avg_latency_ms": 38.7,
-  "avg_alpha":      0.51,
-  "recent_logs": [
-    {
-      "id":           42,
-      "request_id":   "3f2a1b4c-...",
-      "timestamp":    "2024-01-15T10:23:41+00:00",
-      "query":        "black holes gravitational waves",
-      "alpha":        0.5,
-      "top_k":        10,
-      "latency_ms":   35.1,
-      "result_count": 10,
-      "filters":      null,
-      "error":        null
-    }
-  ]
-}
+# 1. Missing scores filled with 0.0
+
+# 2. Min-max normalise each score space to [0, 1]
+#    If all scores equal → return 0.5 (avoids divide-by-zero NaN)
+
+norm = (score - min) / (max - min)
+
+# 3. Fuse
+hybrid = alpha × bm25_norm + (1 - alpha) × vector_norm
 ```
 
----
+Results sorted by `hybrid` descending, truncated to `top_k`. Every result carries `bm25_score`, `vector_score`, and `score` so the ranking is fully explainable.
 
-## Running Tests
-```bash
-cd backend
-pytest tests/ -v
-```
-
-Run a specific test file:
-```bash
-pytest tests/test_bm25.py -v
-pytest tests/test_hybrid.py -v
-pytest tests/test_api.py -v
-```
-
-Run with coverage:
-```bash
-pytest tests/ --cov=app --cov-report=term-missing
-```
-
-The test suite uses a small three-document corpus (space / hockey /
-medicine) so it runs in seconds without touching any real indexes or the
-network. Disk I/O tests use `pytest`'s `tmp_path` fixture — nothing
-written to your working tree.
-
----
-
-## Evaluation
-
-Generate relevance judgments (only needed once after ingest):
-```bash
-cd backend
-python -m app.generate_qrels
-```
-
-Run the evaluation sweep across five alpha values:
-```bash
-python -m app.eval
-```
-
-Or target specific alphas and a different cutoff:
-```bash
-python -m app.eval --alphas 0.0 0.25 0.5 0.75 1.0 --k 10
-```
-
-Sample output:
-```
-──────────────────────────────────────────────────────────
-       alpha     nDCG@10    Recall@10         MRR
-──────────────────────────────────────────────────────────
-        0.00      0.3821       0.2900      0.4102
-        0.25      0.4103       0.3200      0.4418
-        0.50      0.4387       0.3500      0.4731
-        0.75      0.4201       0.3300      0.4523
-        1.00      0.3644       0.2700      0.3899
-──────────────────────────────────────────────────────────
-
-Best nDCG@10:    alpha=0.50  (0.4387)
-Best Recall@10:  alpha=0.50  (0.3500)
-Best MRR:        alpha=0.50  (0.4731)
-```
-
-Results are saved to `data/metrics/experiments.csv`:
-```
-run,alpha,ndcg_at_k,recall_at_k,mrr,num_queries
-1,0.0,0.3821,0.2900,0.4102,25
-2,0.25,0.4103,0.3200,0.4418,25
-3,0.5,0.4387,0.3500,0.4731,25
-4,0.75,0.4201,0.3300,0.4523,25
-5,1.0,0.3644,0.2700,0.3899,25
-```
-
-The dashboard Evaluation page reads this file directly and renders
-the metric charts — no extra steps needed.
+Two normalisation strategies are compared in `docs/decision_log.md` — min-max was chosen over z-score for bounded [0,1] output and robustness on small result sets.
 
 ---
 
 ## SQLite Schema
 
-Every search request is logged to `data/search_logs.db`, including failed
-ones. The `error` column is null for successful queries.
-```sql
-CREATE TABLE schema_meta (
-    key   TEXT PRIMARY KEY,
-    value TEXT NOT NULL
-);
+All requests logged to `data/search_logs.db`:
 
+```sql
 CREATE TABLE query_logs (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    request_id    TEXT    NOT NULL,   -- UUID linking log to API response
+    request_id    TEXT    NOT NULL,
     timestamp     TEXT    NOT NULL,   -- ISO-8601 UTC
-    query         TEXT    NOT NULL,   -- raw query string
-    alpha         REAL    NOT NULL,   -- fusion weight used
-    top_k         INTEGER NOT NULL,   -- results requested
-    latency_ms    REAL    NOT NULL,   -- total request time in milliseconds
-    result_count  INTEGER NOT NULL,   -- results actually returned
-    filters       TEXT,               -- JSON-encoded filter dict or NULL
-    error         TEXT                -- error message or NULL on success
+    query         TEXT    NOT NULL,
+    alpha         REAL    NOT NULL,
+    top_k         INTEGER NOT NULL,
+    latency_ms    REAL    NOT NULL,
+    result_count  INTEGER NOT NULL,
+    filters       TEXT,               -- JSON or NULL
+    error         TEXT                -- NULL on success
 );
-
-CREATE INDEX idx_timestamp ON query_logs(timestamp);
-CREATE INDEX idx_query     ON query_logs(query);
 ```
 
-Inspect it directly:
-```bash
-sqlite3 data/search_logs.db "SELECT query, alpha, latency_ms, result_count FROM query_logs ORDER BY timestamp DESC LIMIT 10;"
-```
-
----
-
-## Hybrid Scoring
-
-Each query fetches up to 30 candidates from BM25 and 30 from the vector
-index independently. Their doc_id sets are unioned, then scores are
-normalised and fused:
-```
-# 1. Fill missing scores with 0.0
-#    (a doc that only appeared in BM25 gets vector_score = 0.0 and vice versa)
-
-# 2. Min-max normalise each score space independently to [0, 1]
-
-           score - min(scores)
-norm  =  ─────────────────────
-           max(scores) - min(scores)
-
-# Special case: if all scores are equal (including all-zero from a
-# nonsense query), return 0.5 for every document instead of NaN.
-
-# 3. Fuse
-
-hybrid = alpha × bm25_norm + (1 - alpha) × vector_norm
-```
-
-`alpha = 1.0` → pure BM25, ignores vector scores entirely.
-`alpha = 0.0` → pure vector, ignores BM25 scores entirely.
-`alpha = 0.5` → equal blend, usually the best default.
-
-The final ranked list is sorted by `hybrid` score descending and truncated
-to `top_k`. Each result carries all three scores (`bm25_score`,
-`vector_score`, `score`) so you can see exactly why a document ranked
-where it did.
+Migrations are versioned in `app/db.py` via a `schema_meta` table — see Scenario B in `docs/break_fix_log.md` for how a bad migration was induced and recovered.
 
 ---
 
 ## Project Structure
+
 ```
-hybrid-search/
-│
+hybridsearch/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py              # FastAPI app factory + lifespan
+│   │   ├── main.py              # FastAPI app + lifespan
 │   │   ├── dependencies.py      # get_search_engine(), get_db()
-│   │   ├── models.py            # all Pydantic schemas
-│   │   ├── db.py                # SQLite logging + migrations
-│   │   ├── ingest.py            # Wikipedia fetch + cleaning
+│   │   ├── models.py            # Pydantic schemas
+│   │   ├── db.py                # SQLite + versioned migrations
+│   │   ├── ingest.py            # Wikipedia fetch + preprocessing
 │   │   ├── eval.py              # nDCG / Recall / MRR harness
 │   │   ├── generate_qrels.py    # ground-truth relevance judgments
-│   │   │
 │   │   ├── search/
-│   │   │   ├── bm25.py          # BM25 index: build, save, load, query
+│   │   │   ├── bm25.py          # BM25Index: build, save, load, query
 │   │   │   ├── vector.py        # FAISS index: embed, build, save, load, query
 │   │   │   └── hybrid.py        # score fusion + snippet highlighting
-│   │   │
 │   │   └── api/
 │   │       ├── search.py        # POST /api/v1/search
+│   │       ├── feedback.py      # POST /api/v1/feedback
 │   │       ├── ingest.py        # POST /api/v1/ingest
-│   │       └── stats.py         # GET  /api/v1/stats|logs|metrics|health
-│   │
+│   │       └── stats.py         # GET /api/v1/stats|metrics|health
 │   ├── scripts/
-│   │   └── build_index.py       # ingest → BM25 + vector indexes
-│   │
+│   │   └── build_index.py       # standalone: ingest → build both indexes
 │   └── tests/
-│       ├── conftest.py
-│       ├── test_bm25.py
-│       ├── test_vector.py
-│       ├── test_hybrid.py
-│       ├── test_ingest.py
-│       └── test_api.py
-│
+│       ├── conftest.py          # shared fixtures (toy corpus, tmp indexes)
+│       ├── test_bm25.py         # BM25 scoring + ordering
+│       ├── test_vector.py       # embedding + FAISS search
+│       ├── test_hybrid.py       # fusion, NaN guard, normalization
+│       ├── test_ingest.py       # preprocessing + JSONL output
+│       └── test_api.py          # FastAPI contract tests (TestClient)
 ├── frontend/
-│   └── dashboard.py             # Streamlit: Search, KPIs, Eval, Debug Logs
-│
-├── data/                        # generated — gitignored
-│   ├── raw/                     # drop .txt files here for custom docs
-│   ├── processed/
-│   │   └── docs.jsonl
-│   ├── indexes/
-│   │   ├── bm25/
-│   │   │   ├── index.pkl
-│   │   │   └── meta.json
-│   │   └── vector/
-│   │       ├── index.faiss
-│   │       ├── meta.json
-│   │       └── id_map.json
-│   └── metrics/
-│       └── experiments.csv
-│
+│   └── dashboard.py             # Streamlit: Search / KPIs / Eval / Debug
+├── data/
+│   ├── raw/                     # drop custom .txt/.md files here
+│   ├── processed/docs.jsonl     # pre-built, committed
+│   ├── indexes/                 # pre-built, committed
+│   │   ├── bm25/index.pkl + meta.json
+│   │   └── vector/index.faiss + meta.json + id_map.json
+│   └── metrics/experiments.csv  # eval results across runs
 ├── eval/
-│   └── qrels.json
-│
+│   └── qrels.json               # 25 queries × 3-10 relevant docs
 ├── docs/
 │   ├── architecture.md
-│   ├── decisions.md
+│   ├── decision_log.md          # normalization strategy, tech choices
+│   ├── codex_log.md             # granular Codex prompt log
+│   ├── break_fix_log.md         # 3 induced failure scenarios + fixes
 │   ├── api.md
 │   └── evaluation.md
-│
-├── up.sh                        # start everything with one command
+├── up.sh                        # one-command start
+├── down.sh                      # one-command stop
+├── pytest.ini
 ├── requirements.txt
 ├── .env.example
 └── README.md
@@ -411,14 +290,22 @@ hybrid-search/
 
 ---
 
-## What's not included
+## Docs
 
-- **GPU support** — intentionally CPU-only. `torch` is installed from the
-  CPU wheel index, `faiss-cpu` is pinned explicitly.
-- **Authentication** — no API keys, no auth headers. Add FastAPI's
-  `Security` dependency if you need it.
-- **Persistent re-ingestion** — running `POST /ingest` overwrites
-  `docs.jsonl`. Incremental updates would need a dedup step on `doc_id`.
-- **Approximate nearest neighbours** — FAISS `IndexFlatIP` is exact search.
-  Swap to `IndexIVFFlat` or `IndexHNSWFlat` if corpus size grows past ~50k
-  documents and latency becomes a concern.
+| File | Contents |
+|---|---|
+| `docs/architecture.md` | System design, data flow, component diagram |
+| `docs/decision_log.md` | Why min-max over z-score, why SQLite, why Streamlit |
+| `docs/codex_log.md` | Every Codex prompt mapped to a commit |
+| `docs/break_fix_log.md` | Scenario A (index mismatch), B (schema migration), C (NaN scoring) |
+| `docs/api.md` | Full API reference |
+| `docs/evaluation.md` | Eval methodology and qrels construction |
+
+---
+
+## Constraints
+
+- **CPU-only** — torch installed from CPU wheel index, `faiss-cpu` pinned explicitly. No CUDA required.
+- **No paid services** — everything runs locally.
+- **No hardcoded paths** — all paths relative to repo root via `SCRIPT_DIR` in `up.sh`.
+- **Reviewer time** — fresh clone to running system in under 5 minutes.
