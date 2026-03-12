@@ -10,7 +10,7 @@ A production-style search engine that combines BM25 (lexical) and sentence-trans
 git clone https://github.com/mohitjain2306/hybridsearch.git
 cd hybridsearch
 cp .env.example .env
-bash up.sh
+./up.sh
 ```
 
 `up.sh` will:
@@ -30,7 +30,7 @@ On a fresh clone, startup takes under 2 minutes because the corpus and indexes a
 | Metrics | http://localhost:8000/api/v1/metrics |
 
 Stop everything: `Ctrl+C` — both servers shut down cleanly.
-Stop without Ctrl+C: `bash down.sh`
+Stop without Ctrl+C: `./down.sh`
 
 ---
 
