@@ -246,7 +246,7 @@ rows      = evaluator.run(alphas=[0.0, 0.25, 0.5, 0.75, 1.0])
 out = Path(os.environ["EXPERIMENTS_CSV"])
 out.parent.mkdir(parents=True, exist_ok=True)
 
-fieldnames = ["run", "alpha", "ndcg_at_k", "recall_at_k", "mrr", "num_queries"]
+fieldnames = ["run", "alpha", "ndcg_at_10", "recall_at_10", "mrr", "num_queries"]
 with open(out, "w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
