@@ -8,7 +8,7 @@ import requests
 from datetime import datetime
 
 API_BASE = "http://localhost:8000/api/v1"
-HEALTH_URL = "http://localhost:8000/health"
+HEALTH_URL = "http://localhost:8000/api/v1/health"
 
 CATEGORIES = [
     "all", "space", "medicine", "technology", "science", "history",
@@ -270,7 +270,8 @@ elif page == "KPIs":
 elif page == "Evaluation":
     st.header("Evaluation")
 
-    csv_path = "data/metrics/experiments.csv"
+    import os
+    csv_path = os.path.join(os.path.dirname(__file__), "..", "data", "metrics", "experiments.csv")
     try:
         df_eval = pd.read_csv(csv_path)
     except FileNotFoundError:

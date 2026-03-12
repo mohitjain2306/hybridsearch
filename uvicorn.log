@@ -1,7 +1,12 @@
-23:50:31  INFO      app.main  Starting up Knowledge Search API…
-23:50:31  INFO      app.main  Database initialised.
-23:50:31  INFO      app.search.bm25  BM25 index loaded — 240 docs from /Users/mohitjain/Downloads/kearney/data/indexes/bm25/index.pkl
-23:50:31  INFO      app.search.vector  Vector index loaded — 240 vectors, dim=384, model=all-MiniLM-L6-v2
-23:50:31  INFO      app.main  HybridSearch ready — BM25: 240 docs, Vector: 240 docs.
-23:50:31  INFO      app.main  Startup complete.
-23:51:50  INFO      app.main  Shutting down Knowledge Search API.
+23:54:54  INFO      app.main  Starting up Knowledge Search API…
+23:54:54  INFO      app.main  Database initialised.
+23:54:54  INFO      app.search.bm25  BM25 index loaded — 240 docs from /Users/mohitjain/Downloads/kearney/data/indexes/bm25/index.pkl
+23:54:54  INFO      app.search.vector  Vector index loaded — 240 vectors, dim=384, model=all-MiniLM-L6-v2
+23:54:54  INFO      app.main  HybridSearch ready — BM25: 240 docs, Vector: 240 docs.
+23:54:54  INFO      app.main  Startup complete.
+23:55:10  INFO      app.search.vector  Loading sentence-transformer model all-MiniLM-L6-v2…
+23:55:10  INFO      sentence_transformers.SentenceTransformer  Use pytorch device_name: mps
+23:55:10  INFO      sentence_transformers.SentenceTransformer  Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+00:02:07  INFO      app.main  Shutting down Knowledge Search API.
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/multiprocessing/resource_tracker.py:301: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-10065-k01q_okd'}
+  warnings.warn(

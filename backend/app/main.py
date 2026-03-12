@@ -59,10 +59,11 @@ async def lifespan(app: FastAPI):
     if indexes_ok:
         engine = HybridSearch(bm25_index, vector_index)
         set_search_engine(engine)
-        logger.info(
-            "HybridSearch ready — BM25: %d docs, Vector: %d docs.",
-            len(bm25_index), len(vector_index),
-        )
+    
+    # warm up embedding model so first query isn't slow
+        logger.info("Warming up embedding model…")
+        vector_index._model = vector_index._load_model()
+        logger.info("Model warm — ready to serve.")
     else:
         missing = []
         if not isinstance(bm25_index, BM25Index):
