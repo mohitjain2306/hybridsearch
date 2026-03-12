@@ -70,21 +70,13 @@ def _snippet(text: str, query: str, window: int = 150) -> str:
 # ---------------------------------------------------------------------------
 
 def _minmax(scores: dict[str, float]) -> dict[str, float]:
-    """
-    Min-max normalise a {doc_id: score} dict to [0, 1].
-    If all scores are equal (including all-zero), returns 0.5 for every key
-    instead of NaN — avoids division-by-zero on degenerate BM25 results.
-    """
     if not scores:
         return {}
-
     lo  = min(scores.values())
     hi  = max(scores.values())
     rng = hi - lo
-
     if rng == 0.0:
         return {doc_id: 0.5 for doc_id in scores}
-
     return {doc_id: (s - lo) / rng for doc_id, s in scores.items()}
 
 
