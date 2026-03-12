@@ -45,7 +45,7 @@ MIGRATIONS: dict[int, str] = {
         ALTER TABLE query_logs ADD COLUMN error TEXT;
     """,
     3: """
-        ALTER TABLE query_logs ADD COLUMN user_id TEXT NOT NULL;
+        ALTER TABLE query_logs ADD COLUMN user_id TEXT;
     """,
 }
 
