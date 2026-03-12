@@ -1,0 +1,1202 @@
+[
+  {
+    "position": 0,
+    "doc_id": "doc_0001_05b3379b",
+    "title": "Black hole"
+  },
+  {
+    "position": 1,
+    "doc_id": "doc_0002_84d9f6c5",
+    "title": "Milky Way"
+  },
+  {
+    "position": 2,
+    "doc_id": "doc_0003_671f0281",
+    "title": "Mars"
+  },
+  {
+    "position": 3,
+    "doc_id": "doc_0004_7099792b",
+    "title": "International Space Station"
+  },
+  {
+    "position": 4,
+    "doc_id": "doc_0005_ceaaa2a6",
+    "title": "James Webb Space Telescope"
+  },
+  {
+    "position": 5,
+    "doc_id": "doc_0006_88a4794e",
+    "title": "Neutron star"
+  },
+  {
+    "position": 6,
+    "doc_id": "doc_0007_0ab12250",
+    "title": "Solar wind"
+  },
+  {
+    "position": 7,
+    "doc_id": "doc_0008_565671eb",
+    "title": "Hubble Space Telescope"
+  },
+  {
+    "position": 8,
+    "doc_id": "doc_0009_7f935440",
+    "title": "Apollo 11"
+  },
+  {
+    "position": 9,
+    "doc_id": "doc_0010_fb1837ba",
+    "title": "Exoplanet"
+  },
+  {
+    "position": 10,
+    "doc_id": "doc_0011_3342605f",
+    "title": "Dark matter"
+  },
+  {
+    "position": 11,
+    "doc_id": "doc_0012_8776b703",
+    "title": "Supernova"
+  },
+  {
+    "position": 12,
+    "doc_id": "doc_0013_233ea180",
+    "title": "Saturn"
+  },
+  {
+    "position": 13,
+    "doc_id": "doc_0014_89c5c304",
+    "title": "Jupiter"
+  },
+  {
+    "position": 14,
+    "doc_id": "doc_0015_2edd3278",
+    "title": "Asteroid belt"
+  },
+  {
+    "position": 15,
+    "doc_id": "doc_0016_0978cd0d",
+    "title": "Spacecraft"
+  },
+  {
+    "position": 16,
+    "doc_id": "doc_0017_08f1e0f7",
+    "title": "Cosmology"
+  },
+  {
+    "position": 17,
+    "doc_id": "doc_0018_01dc58c9",
+    "title": "Big Bang"
+  },
+  {
+    "position": 18,
+    "doc_id": "doc_0019_b3a907bf",
+    "title": "Pulsar"
+  },
+  {
+    "position": 19,
+    "doc_id": "doc_0020_d19ab717",
+    "title": "Quasar"
+  },
+  {
+    "position": 20,
+    "doc_id": "doc_0021_1f901ccc",
+    "title": "Vaccine"
+  },
+  {
+    "position": 21,
+    "doc_id": "doc_0022_c63ed452",
+    "title": "Antibiotic"
+  },
+  {
+    "position": 22,
+    "doc_id": "doc_0023_7463543d",
+    "title": "Cancer"
+  },
+  {
+    "position": 23,
+    "doc_id": "doc_0024_52d261e9",
+    "title": "Diabetes"
+  },
+  {
+    "position": 24,
+    "doc_id": "doc_0025_1458caa4",
+    "title": "Human brain"
+  },
+  {
+    "position": 25,
+    "doc_id": "doc_0026_56f8e8d8",
+    "title": "Immune system"
+  },
+  {
+    "position": 26,
+    "doc_id": "doc_0027_43d3f03a",
+    "title": "Organ transplantation"
+  },
+  {
+    "position": 27,
+    "doc_id": "doc_0028_4cc2ab05",
+    "title": "Surgery"
+  },
+  {
+    "position": 28,
+    "doc_id": "doc_0029_a94d4950",
+    "title": "Virus"
+  },
+  {
+    "position": 29,
+    "doc_id": "doc_0030_d5380d3b",
+    "title": "Pandemic"
+  },
+  {
+    "position": 30,
+    "doc_id": "doc_0031_396c983d",
+    "title": "DNA"
+  },
+  {
+    "position": 31,
+    "doc_id": "doc_0032_e2a480bd",
+    "title": "Gene therapy"
+  },
+  {
+    "position": 32,
+    "doc_id": "doc_0033_46076e04",
+    "title": "Stem cell"
+  },
+  {
+    "position": 33,
+    "doc_id": "doc_0034_993c8c6f",
+    "title": "Neuroscience"
+  },
+  {
+    "position": 34,
+    "doc_id": "doc_0035_fd711c61",
+    "title": "Cardiology"
+  },
+  {
+    "position": 35,
+    "doc_id": "doc_0036_7113ad9c",
+    "title": "Epidemiology"
+  },
+  {
+    "position": 36,
+    "doc_id": "doc_0037_bf035ab7",
+    "title": "Pharmacology"
+  },
+  {
+    "position": 37,
+    "doc_id": "doc_0038_7bab9683",
+    "title": "Mental health"
+  },
+  {
+    "position": 38,
+    "doc_id": "doc_0039_722012bb",
+    "title": "Alzheimer's disease"
+  },
+  {
+    "position": 39,
+    "doc_id": "doc_0040_f0c1b8c7",
+    "title": "CRISPR"
+  },
+  {
+    "position": 40,
+    "doc_id": "doc_0041_9d0996a4",
+    "title": "Artificial intelligence"
+  },
+  {
+    "position": 41,
+    "doc_id": "doc_0042_c8205c76",
+    "title": "Internet"
+  },
+  {
+    "position": 42,
+    "doc_id": "doc_0043_548c00e8",
+    "title": "Semiconductor"
+  },
+  {
+    "position": 43,
+    "doc_id": "doc_0044_c89ffe68",
+    "title": "Quantum computing"
+  },
+  {
+    "position": 44,
+    "doc_id": "doc_0045_3cc377f7",
+    "title": "Blockchain"
+  },
+  {
+    "position": 45,
+    "doc_id": "doc_0046_2a80513f",
+    "title": "Machine learning"
+  },
+  {
+    "position": 46,
+    "doc_id": "doc_0047_5c7ec438",
+    "title": "Computer vision"
+  },
+  {
+    "position": 47,
+    "doc_id": "doc_0048_c98c1972",
+    "title": "Robotics"
+  },
+  {
+    "position": 48,
+    "doc_id": "doc_0049_29d8bfd5",
+    "title": "Cloud computing"
+  },
+  {
+    "position": 49,
+    "doc_id": "doc_0050_06244f27",
+    "title": "Computer security"
+  },
+  {
+    "position": 50,
+    "doc_id": "doc_0051_fa264930",
+    "title": "5G"
+  },
+  {
+    "position": 51,
+    "doc_id": "doc_0052_aff30ba8",
+    "title": "Electric vehicle"
+  },
+  {
+    "position": 52,
+    "doc_id": "doc_0053_9be0c591",
+    "title": "Renewable energy"
+  },
+  {
+    "position": 53,
+    "doc_id": "doc_0054_3aa01c5e",
+    "title": "Nanotechnology"
+  },
+  {
+    "position": 54,
+    "doc_id": "doc_0055_8c7694fa",
+    "title": "3D printing"
+  },
+  {
+    "position": 55,
+    "doc_id": "doc_0056_1c1aa772",
+    "title": "Augmented reality"
+  },
+  {
+    "position": 56,
+    "doc_id": "doc_0057_d023ec04",
+    "title": "Bitcoin"
+  },
+  {
+    "position": 57,
+    "doc_id": "doc_0058_08002577",
+    "title": "Self-driving car"
+  },
+  {
+    "position": 58,
+    "doc_id": "doc_0059_9389b39b",
+    "title": "Natural language processing"
+  },
+  {
+    "position": 59,
+    "doc_id": "doc_0060_8f5556ea",
+    "title": "Neural network"
+  },
+  {
+    "position": 60,
+    "doc_id": "doc_0061_3d07949f",
+    "title": "Photosynthesis"
+  },
+  {
+    "position": 61,
+    "doc_id": "doc_0062_42f0d762",
+    "title": "Evolution"
+  },
+  {
+    "position": 62,
+    "doc_id": "doc_0063_e7e9d275",
+    "title": "Relativity"
+  },
+  {
+    "position": 63,
+    "doc_id": "doc_0064_f1ed490d",
+    "title": "Thermodynamics"
+  },
+  {
+    "position": 64,
+    "doc_id": "doc_0065_e185f86a",
+    "title": "Quantum mechanics"
+  },
+  {
+    "position": 65,
+    "doc_id": "doc_0066_a093c7b7",
+    "title": "Periodic table"
+  },
+  {
+    "position": 66,
+    "doc_id": "doc_0067_76dfda26",
+    "title": "Electromagnetic radiation"
+  },
+  {
+    "position": 67,
+    "doc_id": "doc_0068_d150d93d",
+    "title": "Cell biology"
+  },
+  {
+    "position": 68,
+    "doc_id": "doc_0069_4cc4f3c5",
+    "title": "Plate tectonics"
+  },
+  {
+    "position": 69,
+    "doc_id": "doc_0070_52eaab36",
+    "title": "Nuclear fusion"
+  },
+  {
+    "position": 70,
+    "doc_id": "doc_0071_c07e50e3",
+    "title": "Climate change"
+  },
+  {
+    "position": 71,
+    "doc_id": "doc_0072_8796057d",
+    "title": "Ecology"
+  },
+  {
+    "position": 72,
+    "doc_id": "doc_0073_dec501b5",
+    "title": "Genetics"
+  },
+  {
+    "position": 73,
+    "doc_id": "doc_0074_a9475aa9",
+    "title": "History of atomic theory"
+  },
+  {
+    "position": 74,
+    "doc_id": "doc_0075_389e338e",
+    "title": "Fluid dynamics"
+  },
+  {
+    "position": 75,
+    "doc_id": "doc_0076_0c65bd79",
+    "title": "Chemical bond"
+  },
+  {
+    "position": 76,
+    "doc_id": "doc_0077_15fc3950",
+    "title": "Entropy"
+  },
+  {
+    "position": 77,
+    "doc_id": "doc_0078_210d9eab",
+    "title": "Radioactive decay"
+  },
+  {
+    "position": 78,
+    "doc_id": "doc_0079_30d10883",
+    "title": "Taxonomy"
+  },
+  {
+    "position": 79,
+    "doc_id": "doc_0080_053d799c",
+    "title": "Biochemistry"
+  },
+  {
+    "position": 80,
+    "doc_id": "doc_0081_fbb78bbe",
+    "title": "World War II"
+  },
+  {
+    "position": 81,
+    "doc_id": "doc_0082_98f216b9",
+    "title": "Roman Empire"
+  },
+  {
+    "position": 82,
+    "doc_id": "doc_0083_27ab5e58",
+    "title": "French Revolution"
+  },
+  {
+    "position": 83,
+    "doc_id": "doc_0084_d5a25252",
+    "title": "Industrial Revolution"
+  },
+  {
+    "position": 84,
+    "doc_id": "doc_0085_d543107c",
+    "title": "Cold War"
+  },
+  {
+    "position": 85,
+    "doc_id": "doc_0086_b7e128a8",
+    "title": "Ancient Egypt"
+  },
+  {
+    "position": 86,
+    "doc_id": "doc_0087_47dbea34",
+    "title": "Mongol Empire"
+  },
+  {
+    "position": 87,
+    "doc_id": "doc_0088_bf1cc759",
+    "title": "Renaissance"
+  },
+  {
+    "position": 88,
+    "doc_id": "doc_0089_32dde6d0",
+    "title": "American Civil War"
+  },
+  {
+    "position": 89,
+    "doc_id": "doc_0090_52b2316e",
+    "title": "Age of Discovery"
+  },
+  {
+    "position": 90,
+    "doc_id": "doc_0091_257e529a",
+    "title": "Byzantine Empire"
+  },
+  {
+    "position": 91,
+    "doc_id": "doc_0092_699e5561",
+    "title": "Ottoman Empire"
+  },
+  {
+    "position": 92,
+    "doc_id": "doc_0093_a40279d9",
+    "title": "Great Wall of China"
+  },
+  {
+    "position": 93,
+    "doc_id": "doc_0094_388f7bbd",
+    "title": "Silk Road"
+  },
+  {
+    "position": 94,
+    "doc_id": "doc_0095_45e6e9e7",
+    "title": "Black Death"
+  },
+  {
+    "position": 95,
+    "doc_id": "doc_0096_f326581f",
+    "title": "World War I"
+  },
+  {
+    "position": 96,
+    "doc_id": "doc_0097_9523d540",
+    "title": "Cuban Missile Crisis"
+  },
+  {
+    "position": 97,
+    "doc_id": "doc_0098_7d1c07ba",
+    "title": "Colonialism"
+  },
+  {
+    "position": 98,
+    "doc_id": "doc_0099_ee1ce6c0",
+    "title": "Enlightenment"
+  },
+  {
+    "position": 99,
+    "doc_id": "doc_0100_89736e4a",
+    "title": "Feudalism"
+  },
+  {
+    "position": 100,
+    "doc_id": "doc_0101_ab685066",
+    "title": "Amazon River"
+  },
+  {
+    "position": 101,
+    "doc_id": "doc_0102_15fe3fe1",
+    "title": "Sahara"
+  },
+  {
+    "position": 102,
+    "doc_id": "doc_0103_febe1d6f",
+    "title": "Himalayas"
+  },
+  {
+    "position": 103,
+    "doc_id": "doc_0104_3e3b0e4c",
+    "title": "Pacific Ocean"
+  },
+  {
+    "position": 104,
+    "doc_id": "doc_0105_3150ec26",
+    "title": "Amazon rainforest"
+  },
+  {
+    "position": 105,
+    "doc_id": "doc_0106_3d6ff25a",
+    "title": "Nile"
+  },
+  {
+    "position": 106,
+    "doc_id": "doc_0107_3273936a",
+    "title": "Atacama Desert"
+  },
+  {
+    "position": 107,
+    "doc_id": "doc_0108_9b36d354",
+    "title": "Great Barrier Reef"
+  },
+  {
+    "position": 108,
+    "doc_id": "doc_0109_f9e94027",
+    "title": "Mount Everest"
+  },
+  {
+    "position": 109,
+    "doc_id": "doc_0110_980a86df",
+    "title": "Mediterranean Sea"
+  },
+  {
+    "position": 110,
+    "doc_id": "doc_0111_abdc84c1",
+    "title": "Gobi Desert"
+  },
+  {
+    "position": 111,
+    "doc_id": "doc_0112_d7a688ad",
+    "title": "Andes"
+  },
+  {
+    "position": 112,
+    "doc_id": "doc_0113_ae8a5e25",
+    "title": "Congo River"
+  },
+  {
+    "position": 113,
+    "doc_id": "doc_0114_c57f1dd7",
+    "title": "Arctic Ocean"
+  },
+  {
+    "position": 114,
+    "doc_id": "doc_0115_aa822dba",
+    "title": "Patagonia"
+  },
+  {
+    "position": 115,
+    "doc_id": "doc_0116_7e939ae1",
+    "title": "Tibetan Plateau"
+  },
+  {
+    "position": 116,
+    "doc_id": "doc_0117_eb783673",
+    "title": "Great Rift Valley"
+  },
+  {
+    "position": 117,
+    "doc_id": "doc_0118_73440980",
+    "title": "Mekong"
+  },
+  {
+    "position": 118,
+    "doc_id": "doc_0119_8b927bf6",
+    "title": "Danube"
+  },
+  {
+    "position": 119,
+    "doc_id": "doc_0120_4d425bfb",
+    "title": "Mariana Trench"
+  },
+  {
+    "position": 120,
+    "doc_id": "doc_0121_20117948",
+    "title": "Capitalism"
+  },
+  {
+    "position": 121,
+    "doc_id": "doc_0122_4aec5302",
+    "title": "Gross domestic product"
+  },
+  {
+    "position": 122,
+    "doc_id": "doc_0123_d68d754b",
+    "title": "Inflation"
+  },
+  {
+    "position": 123,
+    "doc_id": "doc_0124_1e19b3e5",
+    "title": "Stock market"
+  },
+  {
+    "position": 124,
+    "doc_id": "doc_0125_7df86c28",
+    "title": "Supply and demand"
+  },
+  {
+    "position": 125,
+    "doc_id": "doc_0126_7f090c84",
+    "title": "Central bank"
+  },
+  {
+    "position": 126,
+    "doc_id": "doc_0127_bc0d2dca",
+    "title": "International trade"
+  },
+  {
+    "position": 127,
+    "doc_id": "doc_0128_dbd2e4a5",
+    "title": "Unemployment"
+  },
+  {
+    "position": 128,
+    "doc_id": "doc_0129_60bf856c",
+    "title": "Fiscal policy"
+  },
+  {
+    "position": 129,
+    "doc_id": "doc_0130_d8d21b16",
+    "title": "Monetary policy"
+  },
+  {
+    "position": 130,
+    "doc_id": "doc_0131_f507cddf",
+    "title": "Globalization"
+  },
+  {
+    "position": 131,
+    "doc_id": "doc_0132_1d219f6c",
+    "title": "Microeconomics"
+  },
+  {
+    "position": 132,
+    "doc_id": "doc_0133_f2526369",
+    "title": "Macroeconomics"
+  },
+  {
+    "position": 133,
+    "doc_id": "doc_0134_2402fa27",
+    "title": "Free trade"
+  },
+  {
+    "position": 134,
+    "doc_id": "doc_0135_ab3cf1d1",
+    "title": "Keynesian economics"
+  },
+  {
+    "position": 135,
+    "doc_id": "doc_0136_4c11904e",
+    "title": "Cryptocurrency"
+  },
+  {
+    "position": 136,
+    "doc_id": "doc_0137_7a162384",
+    "title": "Foreign exchange market"
+  },
+  {
+    "position": 137,
+    "doc_id": "doc_0138_8494dd6c",
+    "title": "Government debt"
+  },
+  {
+    "position": 138,
+    "doc_id": "doc_0139_09a12500",
+    "title": "Economic inequality"
+  },
+  {
+    "position": 139,
+    "doc_id": "doc_0140_b7b13929",
+    "title": "World Bank Group"
+  },
+  {
+    "position": 140,
+    "doc_id": "doc_0141_449a5f6d",
+    "title": "Football"
+  },
+  {
+    "position": 141,
+    "doc_id": "doc_0142_43f4f606",
+    "title": "Olympic Games"
+  },
+  {
+    "position": 142,
+    "doc_id": "doc_0143_0c493d20",
+    "title": "Tennis"
+  },
+  {
+    "position": 143,
+    "doc_id": "doc_0144_c71a1808",
+    "title": "Basketball"
+  },
+  {
+    "position": 144,
+    "doc_id": "doc_0145_a90edc84",
+    "title": "Cricket"
+  },
+  {
+    "position": 145,
+    "doc_id": "doc_0146_267f48aa",
+    "title": "Formula One"
+  },
+  {
+    "position": 146,
+    "doc_id": "doc_0147_7b7a0411",
+    "title": "Swimming"
+  },
+  {
+    "position": 147,
+    "doc_id": "doc_0148_322c3978",
+    "title": "Athletics"
+  },
+  {
+    "position": 148,
+    "doc_id": "doc_0149_6e0cdf99",
+    "title": "Rugby union"
+  },
+  {
+    "position": 149,
+    "doc_id": "doc_0150_690c3b10",
+    "title": "Golf"
+  },
+  {
+    "position": 150,
+    "doc_id": "doc_0151_19bf99f6",
+    "title": "Boxing"
+  },
+  {
+    "position": 151,
+    "doc_id": "doc_0152_14943f54",
+    "title": "Cycling"
+  },
+  {
+    "position": 152,
+    "doc_id": "doc_0153_ea94a7ff",
+    "title": "Baseball"
+  },
+  {
+    "position": 153,
+    "doc_id": "doc_0154_c26e2589",
+    "title": "Volleyball"
+  },
+  {
+    "position": 154,
+    "doc_id": "doc_0155_a60f5b89",
+    "title": "Table tennis"
+  },
+  {
+    "position": 155,
+    "doc_id": "doc_0156_3d7f6595",
+    "title": "Ice hockey"
+  },
+  {
+    "position": 156,
+    "doc_id": "doc_0157_35d80dc3",
+    "title": "Skiing"
+  },
+  {
+    "position": 157,
+    "doc_id": "doc_0158_b0a71d5d",
+    "title": "Triathlon"
+  },
+  {
+    "position": 158,
+    "doc_id": "doc_0159_d2cf83e9",
+    "title": "Rowing"
+  },
+  {
+    "position": 159,
+    "doc_id": "doc_0160_b1a743a1",
+    "title": "Gymnastics"
+  },
+  {
+    "position": 160,
+    "doc_id": "doc_0161_e5348e0c",
+    "title": "Philosophy"
+  },
+  {
+    "position": 161,
+    "doc_id": "doc_0162_f1506b63",
+    "title": "Literature"
+  },
+  {
+    "position": 162,
+    "doc_id": "doc_0163_25e50ac8",
+    "title": "Classical music"
+  },
+  {
+    "position": 163,
+    "doc_id": "doc_0164_bae90233",
+    "title": "Film"
+  },
+  {
+    "position": 164,
+    "doc_id": "doc_0165_2d242bb3",
+    "title": "Architecture"
+  },
+  {
+    "position": 165,
+    "doc_id": "doc_0166_2875ec54",
+    "title": "Painting"
+  },
+  {
+    "position": 166,
+    "doc_id": "doc_0167_46abaf0d",
+    "title": "Theatre"
+  },
+  {
+    "position": 167,
+    "doc_id": "doc_0168_7ae5eb05",
+    "title": "Dance"
+  },
+  {
+    "position": 168,
+    "doc_id": "doc_0169_34296cc3",
+    "title": "Myth"
+  },
+  {
+    "position": 169,
+    "doc_id": "doc_0170_a1d603bf",
+    "title": "Religion"
+  },
+  {
+    "position": 170,
+    "doc_id": "doc_0171_4994a8ff",
+    "title": "Language"
+  },
+  {
+    "position": 171,
+    "doc_id": "doc_0172_7e3b037a",
+    "title": "Folklore"
+  },
+  {
+    "position": 172,
+    "doc_id": "doc_0173_1c2800d2",
+    "title": "Cuisine"
+  },
+  {
+    "position": 173,
+    "doc_id": "doc_0174_93e002c7",
+    "title": "Fashion"
+  },
+  {
+    "position": 174,
+    "doc_id": "doc_0175_a2a5c33e",
+    "title": "Photography"
+  },
+  {
+    "position": 175,
+    "doc_id": "doc_0176_817e896c",
+    "title": "Sculpture"
+  },
+  {
+    "position": 176,
+    "doc_id": "doc_0177_a956e985",
+    "title": "Opera"
+  },
+  {
+    "position": 177,
+    "doc_id": "doc_0178_d4fda09f",
+    "title": "Anime"
+  },
+  {
+    "position": 178,
+    "doc_id": "doc_0179_9a284efd",
+    "title": "Jazz"
+  },
+  {
+    "position": 179,
+    "doc_id": "doc_0180_1071971d",
+    "title": "Hip-hop"
+  },
+  {
+    "position": 180,
+    "doc_id": "doc_0181_935c1846",
+    "title": "Biodiversity"
+  },
+  {
+    "position": 181,
+    "doc_id": "doc_0182_3d07949f",
+    "title": "Photosynthesis"
+  },
+  {
+    "position": 182,
+    "doc_id": "doc_0183_19f59b74",
+    "title": "Migration"
+  },
+  {
+    "position": 183,
+    "doc_id": "doc_0184_ecf467f5",
+    "title": "Coral reef"
+  },
+  {
+    "position": 184,
+    "doc_id": "doc_0185_7e47816d",
+    "title": "Rainforest"
+  },
+  {
+    "position": 185,
+    "doc_id": "doc_0186_2495895c",
+    "title": "Endangered species"
+  },
+  {
+    "position": 186,
+    "doc_id": "doc_0187_a4bb832c",
+    "title": "Symbiosis"
+  },
+  {
+    "position": 187,
+    "doc_id": "doc_0188_072569a8",
+    "title": "Predation"
+  },
+  {
+    "position": 188,
+    "doc_id": "doc_0189_57f147f1",
+    "title": "Animal communication"
+  },
+  {
+    "position": 189,
+    "doc_id": "doc_0190_2a972a8a",
+    "title": "Pollination"
+  },
+  {
+    "position": 190,
+    "doc_id": "doc_0191_a585e582",
+    "title": "Wetland"
+  },
+  {
+    "position": 191,
+    "doc_id": "doc_0192_d37a4503",
+    "title": "Mangrove"
+  },
+  {
+    "position": 192,
+    "doc_id": "doc_0193_c63e2bf2",
+    "title": "Tundra"
+  },
+  {
+    "position": 193,
+    "doc_id": "doc_0194_dcff8720",
+    "title": "Savanna"
+  },
+  {
+    "position": 194,
+    "doc_id": "doc_0195_b715d5db",
+    "title": "Deep sea"
+  },
+  {
+    "position": 195,
+    "doc_id": "doc_0196_ebe418ae",
+    "title": "Bird"
+  },
+  {
+    "position": 196,
+    "doc_id": "doc_0197_37426113",
+    "title": "Mammal"
+  },
+  {
+    "position": 197,
+    "doc_id": "doc_0198_960c0870",
+    "title": "Insect"
+  },
+  {
+    "position": 198,
+    "doc_id": "doc_0199_78b3cebe",
+    "title": "Marine biology"
+  },
+  {
+    "position": 199,
+    "doc_id": "doc_0200_7367b22e",
+    "title": "Fungus"
+  },
+  {
+    "position": 200,
+    "doc_id": "doc_0201_2bc69488",
+    "title": "Democracy"
+  },
+  {
+    "position": 201,
+    "doc_id": "doc_0202_2557ec18",
+    "title": "Human rights"
+  },
+  {
+    "position": 202,
+    "doc_id": "doc_0203_de7a22a0",
+    "title": "Education"
+  },
+  {
+    "position": 203,
+    "doc_id": "doc_0204_c31ca1d5",
+    "title": "Poverty"
+  },
+  {
+    "position": 204,
+    "doc_id": "doc_0205_b306b60e",
+    "title": "Immigration"
+  },
+  {
+    "position": 205,
+    "doc_id": "doc_0206_3f64a689",
+    "title": "Feminism"
+  },
+  {
+    "position": 206,
+    "doc_id": "doc_0207_a0903cb2",
+    "title": "Urbanization"
+  },
+  {
+    "position": 207,
+    "doc_id": "doc_0208_57b76fc6",
+    "title": "Social media"
+  },
+  {
+    "position": 208,
+    "doc_id": "doc_0209_8b411027",
+    "title": "Public health"
+  },
+  {
+    "position": 209,
+    "doc_id": "doc_0210_9c67e724",
+    "title": "Journalism"
+  },
+  {
+    "position": 210,
+    "doc_id": "doc_0211_81588d32",
+    "title": "Law"
+  },
+  {
+    "position": 211,
+    "doc_id": "doc_0212_0193369a",
+    "title": "Tax"
+  },
+  {
+    "position": 212,
+    "doc_id": "doc_0213_8a7227b5",
+    "title": "Nonprofit organization"
+  },
+  {
+    "position": 213,
+    "doc_id": "doc_0214_ab593a68",
+    "title": "Civil society"
+  },
+  {
+    "position": 214,
+    "doc_id": "doc_0215_b6fb8914",
+    "title": "Voting"
+  },
+  {
+    "position": 215,
+    "doc_id": "doc_0216_409e4d52",
+    "title": "Welfare state"
+  },
+  {
+    "position": 216,
+    "doc_id": "doc_0217_6c5fb76d",
+    "title": "Discrimination"
+  },
+  {
+    "position": 217,
+    "doc_id": "doc_0218_c87cd3ce",
+    "title": "Social mobility"
+  },
+  {
+    "position": 218,
+    "doc_id": "doc_0219_7d61983c",
+    "title": "Community"
+  },
+  {
+    "position": 219,
+    "doc_id": "doc_0220_f68d7f55",
+    "title": "Bureaucracy"
+  },
+  {
+    "position": 220,
+    "doc_id": "doc_0221_1e984dbe",
+    "title": "Knowledge"
+  },
+  {
+    "position": 221,
+    "doc_id": "doc_0222_07a3dd24",
+    "title": "Communication"
+  },
+  {
+    "position": 222,
+    "doc_id": "doc_0223_1f0aef4f",
+    "title": "Leadership"
+  },
+  {
+    "position": 223,
+    "doc_id": "doc_0224_cd2319e2",
+    "title": "Creativity"
+  },
+  {
+    "position": 224,
+    "doc_id": "doc_0225_0f4ba470",
+    "title": "Decision-making"
+  },
+  {
+    "position": 225,
+    "doc_id": "doc_0226_0f68057d",
+    "title": "Ethics"
+  },
+  {
+    "position": 226,
+    "doc_id": "doc_0227_35ba1271",
+    "title": "Logic"
+  },
+  {
+    "position": 227,
+    "doc_id": "doc_0228_4789f232",
+    "title": "Memory"
+  },
+  {
+    "position": 228,
+    "doc_id": "doc_0229_8af0f5c3",
+    "title": "Learning"
+  },
+  {
+    "position": 229,
+    "doc_id": "doc_0230_c076e4fd",
+    "title": "Motivation"
+  },
+  {
+    "position": 230,
+    "doc_id": "doc_0231_021c54cf",
+    "title": "Consciousness"
+  },
+  {
+    "position": 231,
+    "doc_id": "doc_0232_8f7ba589",
+    "title": "Intelligence"
+  },
+  {
+    "position": 232,
+    "doc_id": "doc_0233_a3eb8a5d",
+    "title": "Emotion"
+  },
+  {
+    "position": 233,
+    "doc_id": "doc_0234_da1691c2",
+    "title": "Perception"
+  },
+  {
+    "position": 234,
+    "doc_id": "doc_0235_87a22257",
+    "title": "Reason"
+  },
+  {
+    "position": 235,
+    "doc_id": "doc_0236_33047ff4",
+    "title": "Problem solving"
+  },
+  {
+    "position": 236,
+    "doc_id": "doc_0237_32f28a2c",
+    "title": "Innovation"
+  },
+  {
+    "position": 237,
+    "doc_id": "doc_0238_337e8f4a",
+    "title": "Collaboration"
+  },
+  {
+    "position": 238,
+    "doc_id": "doc_0239_c9c5c65f",
+    "title": "Identity"
+  },
+  {
+    "position": 239,
+    "doc_id": "doc_0240_a76d4ef5",
+    "title": "Time"
+  }
+]

@@ -102,13 +102,13 @@ fi
 # shellcheck source=/dev/null
 source "$VENV_DIR/bin/activate"
 
-info "Installing dependencies (quiet)…"
 info "Installing CPU-only torch first to prevent GPU variant download…"
-pip install -q torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+pip install -q \
+    torch==2.6.0 \
+    --index-url https://download.pytorch.org/whl/cpu
 
 info "Installing remaining dependencies (quiet)…"
 pip install -q -r "$REQUIREMENTS"
-info "Dependencies up to date."
 
 # ---------------------------------------------------------------------------
 # Step 2 — database
