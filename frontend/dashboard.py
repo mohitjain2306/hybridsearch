@@ -300,23 +300,23 @@ elif page == "Evaluation":
 
     # ── nDCG line chart ───────────────────────────────────────────────────
     with col_left:
-        st.subheader("nDCG@k over experiment runs")
+        st.subheader("nDCG@10 over experiment runs")
         run_col = "run" if "run" in df_eval.columns else df_eval.index.name or "index"
         fig_ndcg = px.line(
             df_eval.reset_index(), x="index", y="ndcg_at_10",
             markers=True,
-            labels={"index": "Run", "ndcg_at_10": "nDCG@k"},
+            labels={"index": "Run", "ndcg_at_10": "nDCG@10"},
         )
         fig_ndcg.update_layout(margin=dict(t=20, b=20))
         st.plotly_chart(fig_ndcg, use_container_width=True, key="eval_ndcg")
 
     # ── Scatter: recall by alpha ──────────────────────────────────────────
     with col_right:
-        st.subheader("Recall@k by alpha")
+        st.subheader("Recall@10 by alpha")
         fig_rec = px.scatter(
-            df_eval, x="alpha", y="recall_10",
+            df_eval, x="alpha", y="recall_at_10",
             size_max=10,
-            labels={"alpha": "Alpha", "recall_at_10": "Recall@k"},
+            labels={"alpha": "Alpha", "recall_at_10": "Recall@10"},
         )
         fig_rec.update_layout(margin=dict(t=20, b=20))
         st.plotly_chart(fig_rec, use_container_width=True, key="eval_recall")
