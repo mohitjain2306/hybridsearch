@@ -188,6 +188,7 @@ if page == "Search":
                                 st.plotly_chart(
                                     fig,
                                     use_container_width=True,
+        hide_index=True,
                                     key=f"score_chart_{rid}_{i}",
                                 )
 
@@ -209,7 +210,7 @@ elif page == "KPIs":
         st.stop()
 
     df = pd.DataFrame(logs)
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df["timestamp"] = pd.to_datetime(df["timestamp"]).dt.tz_convert("Asia/Kolkata")
     df["hour"]      = df["timestamp"].dt.floor("h")
 
     total_q  = len(df)
@@ -383,7 +384,7 @@ elif page == "Debug Logs":
         st.stop()
 
     df = pd.DataFrame(logs)
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df["timestamp"] = pd.to_datetime(df["timestamp"]).dt.tz_convert("Asia/Kolkata")
     df["severity"]  = df["error"].apply(lambda e: "ERROR" if pd.notna(e) and e else "INFO")
 
     if severity_filter != "ALL":
@@ -405,8 +406,9 @@ elif page == "Debug Logs":
     display_cols = [c for c in display_cols if c in df.columns]
 
     st.dataframe(
-        df[display_cols].sort_values("timestamp", ascending=False),
+        df[display_cols].sort_values("timestamp", ascending=False).reset_index(drop=True),
         use_container_width=True,
+        hide_index=True,
         column_config={
             "timestamp":    st.column_config.DatetimeColumn("Time",    format="YYYY-MM-DD HH:mm:ss"),
             "severity":     st.column_config.TextColumn("Severity"),
