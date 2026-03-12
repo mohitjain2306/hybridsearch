@@ -1,6 +1,6 @@
 {
-  "model_name": "all-MiniLM-L6-v2",
-  "dimension": 384,
+  "model_name": "all-mpnet-base-v2",
+  "dimension": 768,
   "doc_count": 240,
   "corpus_hash": "8bbb79bd531f5183b4740524948a551e",
   "built_at": "2026-03-12T18:06:56.671622+00:00"
