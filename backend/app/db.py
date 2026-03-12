@@ -12,7 +12,7 @@ from app.models import QueryLog, StatsResponse
 _ROOT   = Path(__file__).resolve().parent.parent.parent
 DB_PATH = _ROOT / "data/search_logs.db"
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 
 # ---------------------------------------------------------------------------
@@ -44,6 +44,10 @@ MIGRATIONS: dict[int, str] = {
     2: """
         ALTER TABLE query_logs ADD COLUMN error TEXT;
     """,
+    3: """
+        ALTER TABLE query_logs ADD COLUMN user_id TEXT NOT NULL;
+    """,
+}
 }
 
 
