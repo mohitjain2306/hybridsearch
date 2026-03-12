@@ -40,7 +40,7 @@ EXPERIMENTS_CSV="$METRICS_DIR/experiments.csv"
 
 UVICORN_PORT=8000
 STREAMLIT_PORT=8501
-HEALTH_URL="http://localhost:${UVICORN_PORT}/health"
+HEALTH_URL="http://localhost:${UVICORN_PORT}/api/v1/health"
 
 UVICORN_PID=""
 STREAMLIT_PID=""
