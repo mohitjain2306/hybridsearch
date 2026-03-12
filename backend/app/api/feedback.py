@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from app.db import get_db
+from app.dependencies import get_db
 import sqlite3, logging, uuid
 from datetime import datetime, timezone
 

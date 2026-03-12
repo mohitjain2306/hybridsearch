@@ -8,7 +8,6 @@ from pathlib import Path
 
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 from app.models import Document, SearchResult
 from app.ingest import _make_snippet
@@ -32,6 +31,7 @@ DEFAULT_MODEL = "all-MiniLM-L6-v2"
 # ---------------------------------------------------------------------------
 
 class VectorIndex:
+    # SentenceTransformer is imported lazily to avoid slow module-level load in tests
 
     def __init__(self, model_name: str = DEFAULT_MODEL) -> None:
         self._model_name  = model_name
@@ -226,8 +226,9 @@ class VectorIndex:
     # Internals
     # ------------------------------------------------------------------
 
-    def _load_model(self) -> SentenceTransformer:
+    def _load_model(self):
         logger.info("Loading sentence-transformer model %s…", self._model_name)
+        from sentence_transformers import SentenceTransformer
         return SentenceTransformer(self._model_name)
 
     def _encode(self, texts: list[str]) -> np.ndarray:
