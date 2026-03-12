@@ -10,7 +10,7 @@ from fastapi.responses import PlainTextResponse
 
 from app.models import StatsResponse
 from app.db import get_stats, get_logs_for_eval
-from app.dependencies import _search_engine
+
 
 logger = logging.getLogger(__name__)
 router  = APIRouter()
@@ -98,11 +98,20 @@ async def metrics():
 
 @router.get("/health")
 async def health():
+    from app.dependencies import get_search_engine
+    from fastapi import HTTPException
+    
+    indexes_loaded = True
+    try:
+        get_search_engine()
+    except HTTPException:
+        indexes_loaded = False
+    
     stats_data = get_stats()
     return {
         "status":               "ok",
         "version":              "1.0.0",
         "git_commit":           _git_commit(),
-        "indexes_loaded":       _search_engine is not None,
+        "indexes_loaded":       indexes_loaded,
         "total_queries_served": stats_data.total_queries,
     }

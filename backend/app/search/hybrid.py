@@ -1,5 +1,25 @@
 # backend/app/search/hybrid.py
+import json
+from pathlib import Path
 
+_HERE     = Path(__file__).resolve().parent
+_ROOT     = _HERE.parent.parent.parent
+_DOCS_PATH = _ROOT / "data/processed/docs.jsonl"
+
+def _load_docs_lookup() -> dict:
+    """Load full doc metadata keyed by doc_id."""
+    lookup = {}
+    if not _DOCS_PATH.exists():
+        return lookup
+    with open(_DOCS_PATH, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                doc = json.loads(line)
+                lookup[doc["doc_id"]] = doc
+    return lookup
+
+_DOCS_LOOKUP: dict = _load_docs_lookup()
 import re
 import logging
 from app.models import Document, SearchResult, SearchRequest
@@ -16,11 +36,6 @@ FETCH_K = 30
 # ---------------------------------------------------------------------------
 
 def _snippet(text: str, query: str, window: int = 150) -> str:
-    """
-    Return a ~window-char excerpt centred on the first query word match.
-    Matched words are wrapped in **bold** markdown.
-    Falls back to the first window chars if no match is found.
-    """
     if not text:
         return ""
 
@@ -30,26 +45,23 @@ def _snippet(text: str, query: str, window: int = 150) -> str:
         re.IGNORECASE,
     )
 
-    # Find first match position for windowing
     match = pattern.search(text)
     if match:
         centre = match.start()
         half   = window // 2
         start  = max(0, centre - half)
         end    = min(len(text), start + window)
-        # Slide start back if we're near the end
         start  = max(0, end - window)
         excerpt = text[start:end].strip()
+        prefix = "…" if start > 0 else ""
+        suffix = "…" if len(text) > (start + window) else ""
     else:
+        start   = 0
         excerpt = text[:window].strip()
+        prefix  = ""
+        suffix  = "…" if len(text) > window else ""
 
-    # Bold all matched words in the excerpt
     highlighted = pattern.sub(r"**\1**", excerpt)
-
-    # Add ellipsis markers
-    prefix = "…" if (match and start > 0)      else ""
-    suffix = "…" if len(text) > (start + window) else ""
-
     return f"{prefix}{highlighted}{suffix}"
 
 
@@ -134,30 +146,29 @@ class HybridSearch:
         results: list[SearchResult] = []
         for doc_id in ranked_ids:
             src = meta[doc_id]
+            # enrich with full doc data if available
+            full = _DOCS_LOOKUP.get(doc_id, {})
+            text     = full.get("text", src.text)
+            category = full.get("category", src.category)
+
             results.append(
                 SearchResult(
                     doc_id=       doc_id,
                     title=        src.title,
                     chunk_index=  src.chunk_index,
-                    text=         src.text,
-                    snippet=      _snippet(src.text, query),
-                    category=     src.category,
+                    text=         text,
+                    snippet=      _snippet(text, query) if text else src.snippet,
+                    category=     category,
                     score=        round(fused[doc_id],              6),
                     bm25_score=   round(bm25_norm.get(doc_id, 0.0), 6),
                     vector_score= round(vector_norm.get(doc_id, 0.0), 6),
                 )
             )
-
-        logger.debug(
+            logger.debug(
             "HybridSearch query=%r alpha=%.2f → %d results",
             query, alpha, len(results),
         )
         return results
-
-    # ------------------------------------------------------------------
-    # Repr
-    # ------------------------------------------------------------------
-
     def __repr__(self) -> str:
         return (
             f"HybridSearch("

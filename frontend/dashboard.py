@@ -290,7 +290,7 @@ elif page == "Evaluation":
     st.divider()
 
     # Require at minimum: alpha, ndcg_at_k, recall_at_k, mrr
-    required_cols = {"alpha", "ndcg_at_k", "recall_at_k", "mrr"}
+    required_cols = {"alpha", "ndcg_at_10", "recall_at_10", "mrr"}
     if not required_cols.issubset(df_eval.columns):
         missing = required_cols - set(df_eval.columns)
         st.error(f"CSV is missing required columns: {missing}")
@@ -303,9 +303,9 @@ elif page == "Evaluation":
         st.subheader("nDCG@k over experiment runs")
         run_col = "run" if "run" in df_eval.columns else df_eval.index.name or "index"
         fig_ndcg = px.line(
-            df_eval.reset_index(), x="index", y="ndcg_at_k",
+            df_eval.reset_index(), x="index", y="ndcg_at_10",
             markers=True,
-            labels={"index": "Run", "ndcg_at_k": "nDCG@k"},
+            labels={"index": "Run", "ndcg_at_10": "nDCG@k"},
         )
         fig_ndcg.update_layout(margin=dict(t=20, b=20))
         st.plotly_chart(fig_ndcg, use_container_width=True, key="eval_ndcg")
@@ -314,9 +314,9 @@ elif page == "Evaluation":
     with col_right:
         st.subheader("Recall@k by alpha")
         fig_rec = px.scatter(
-            df_eval, x="alpha", y="recall_at_k",
+            df_eval, x="alpha", y="recall_10",
             size_max=10,
-            labels={"alpha": "Alpha", "recall_at_k": "Recall@k"},
+            labels={"alpha": "Alpha", "recall_at_10": "Recall@k"},
         )
         fig_rec.update_layout(margin=dict(t=20, b=20))
         st.plotly_chart(fig_rec, use_container_width=True, key="eval_recall")

@@ -41,7 +41,7 @@ def _dcg(relevances: list[float]) -> float:
     )
 
 
-def ndcg_at_k(ranked_doc_ids: list[str], qrel: dict[str, int], k: int) -> float:
+def ndcg_10(ranked_doc_ids: list[str], qrel: dict[str, int], k: int) -> float:
     """
     nDCG@k — normalised discounted cumulative gain.
     qrel maps doc_id → relevance grade (typically 0, 1, 2).
@@ -55,7 +55,7 @@ def ndcg_at_k(ranked_doc_ids: list[str], qrel: dict[str, int], k: int) -> float:
     return round(dcg / idcg, 4) if idcg > 0 else 0.0
 
 
-def recall_at_k(ranked_doc_ids: list[str], qrel: dict[str, int], k: int) -> float:
+def recall_10(ranked_doc_ids: list[str], qrel: dict[str, int], k: int) -> float:
     """
     Recall@k — fraction of relevant docs found in top-k.
     A doc is considered relevant if its grade > 0.
@@ -127,17 +127,17 @@ class Evaluator:
             results      = self._engine.search(request)
             ranked_ids   = [r.doc_id for r in results]
 
-            ndcg_scores.append(  ndcg_at_k(ranked_ids, qrel, self._k))
-            recall_scores.append(recall_at_k(ranked_ids, qrel, self._k))
+            ndcg_scores.append(  ndcg_10(ranked_ids, qrel, self._k))
+            recall_scores.append(recall_10(ranked_ids, qrel, self._k))
             mrr_scores.append(   mrr(ranked_ids, qrel))
 
         return {
-            "alpha":        alpha,
-            "ndcg_at_k":    round(statistics.mean(ndcg_scores),   4),
-            "recall_at_k":  round(statistics.mean(recall_scores), 4),
-            "mrr":          round(statistics.mean(mrr_scores),    4),
-            "num_queries":  len(self._qrels),
-        }
+        "alpha":        alpha,
+        "ndcg_at_10":   round(statistics.mean(ndcg_scores),   4),
+        "recall_at_10": round(statistics.mean(recall_scores), 4),
+        "mrr":          round(statistics.mean(mrr_scores),    4),
+        "num_queries":  len(self._qrels),
+}
 
     def run(self, alphas: list[float] = DEFAULT_ALPHAS) -> list[dict]:
         """Evaluate across all alpha values and return sorted results."""
@@ -148,8 +148,8 @@ class Evaluator:
             rows.append(row)
             logger.info(
                 "  alpha=%.2f  nDCG@%d=%.4f  Recall@%d=%.4f  MRR=%.4f",
-                alpha, self._k, row["ndcg_at_k"],
-                self._k, row["recall_at_k"], row["mrr"],
+                alpha, self._k, row["ndcg_at_10"],
+                self._k, row["recall_at_10"], row["mrr"],
             )
         return rows
 
@@ -162,32 +162,29 @@ def print_report(rows: list[dict], k: int) -> None:
     col_w = 12
     header = (
         f"{'alpha':>{col_w}}"
-        f"{'nDCG@' + str(k):>{col_w}}"
-        f"{'Recall@' + str(k):>{col_w}}"
+        f"{'nDCG@10':>{col_w}}"
+        f"{'Recall@10':>{col_w}}"
         f"{'MRR':>{col_w}}"
         f"{'Queries':>{col_w}}"
     )
     sep = "─" * len(header)
-
     print(f"\n{sep}")
     print(header)
     print(sep)
     for row in rows:
         print(
             f"{row['alpha']:>{col_w}.2f}"
-            f"{row['ndcg_at_k']:>{col_w}.4f}"
-            f"{row['recall_at_k']:>{col_w}.4f}"
+            f"{row['ndcg_at_10']:>{col_w}.4f}"
+            f"{row['recall_at_10']:>{col_w}.4f}"
             f"{row['mrr']:>{col_w}.4f}"
             f"{row['num_queries']:>{col_w}}"
         )
     print(sep)
-
-    best_ndcg   = max(rows, key=lambda r: r["ndcg_at_k"])
-    best_recall = max(rows, key=lambda r: r["recall_at_k"])
+    best_ndcg   = max(rows, key=lambda r: r["ndcg_at_10"])
+    best_recall = max(rows, key=lambda r: r["recall_at_10"])
     best_mrr    = max(rows, key=lambda r: r["mrr"])
-
-    print(f"\nBest nDCG@{k}:    alpha={best_ndcg['alpha']:.2f}  ({best_ndcg['ndcg_at_k']:.4f})")
-    print(f"Best Recall@{k}:  alpha={best_recall['alpha']:.2f}  ({best_recall['recall_at_k']:.4f})")
+    print(f"\nBest nDCG@10:    alpha={best_ndcg['alpha']:.2f}  ({best_ndcg['ndcg_at_10']:.4f})")
+    print(f"Best Recall@10:  alpha={best_recall['alpha']:.2f}  ({best_recall['recall_at_10']:.4f})")
     print(f"Best MRR:        alpha={best_mrr['alpha']:.2f}  ({best_mrr['mrr']:.4f})\n")
 
 
