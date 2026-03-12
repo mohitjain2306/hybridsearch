@@ -13,9 +13,14 @@ from app.ingest import _make_snippet
 
 logger = logging.getLogger(__name__)
 
-INDEX_FILE = Path("data/indexes/bm25/index.pkl")
-META_FILE  = Path("data/indexes/bm25/meta.json")
+# replace these two lines at the top
 
+
+# with absolute paths anchored to this file's location
+_HERE      = Path(__file__).resolve().parent          # backend/app/search/
+_ROOT      = _HERE.parent.parent.parent               # repo root
+INDEX_FILE = _ROOT / "data/indexes/bm25/index.pkl"
+META_FILE  = _ROOT / "data/indexes/bm25/meta.json"
 
 # ---------------------------------------------------------------------------
 # Tokenizer

@@ -1,7 +1,7 @@
-23:37:11  INFO      app.main  Starting up Knowledge Search API…
-23:37:11  INFO      app.main  Database initialised.
-23:37:11  WARNING   app.search.bm25  BM25 index not found at data/indexes/bm25/index.pkl
-23:37:11  WARNING   app.search.vector  Vector index not found at data/indexes/vector/index.faiss
-23:37:11  WARNING   app.main  ⚠️  Search indexes not found (BM25, Vector). API will start but /search will return 503 until indexes are built. Run: python -m scripts.build_index
-23:37:11  INFO      app.main  Startup complete.
-23:37:38  INFO      app.main  Shutting down Knowledge Search API.
+23:47:34  INFO      app.main  Starting up Knowledge Search API…
+23:47:34  INFO      app.main  Database initialised.
+23:47:34  INFO      app.search.bm25  BM25 index loaded — 240 docs from /Users/mohitjain/Downloads/kearney/data/indexes/bm25/index.pkl
+23:47:34  INFO      app.search.vector  Vector index loaded — 240 vectors, dim=384, model=all-MiniLM-L6-v2
+23:47:34  INFO      app.main  HybridSearch ready — BM25: 240 docs, Vector: 240 docs.
+23:47:34  INFO      app.main  Startup complete.
+23:48:02  INFO      app.main  Shutting down Knowledge Search API.

@@ -9,7 +9,8 @@ from typing import Optional
 
 from app.models import QueryLog, StatsResponse
 
-DB_PATH = Path("data/search_logs.db")
+_ROOT   = Path(__file__).resolve().parent.parent.parent
+DB_PATH = _ROOT / "data/search_logs.db"
 
 SCHEMA_VERSION = 2
 

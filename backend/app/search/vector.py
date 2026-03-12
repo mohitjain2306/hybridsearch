@@ -15,9 +15,14 @@ from app.ingest import _make_snippet
 
 logger = logging.getLogger(__name__)
 
-INDEX_FILE = Path("data/indexes/vector/index.faiss")
-META_FILE  = Path("data/indexes/vector/meta.json")
-ID_MAP_FILE = Path("data/indexes/vector/id_map.json")
+# replace these three lines at the top
+
+# with absolute paths
+_HERE       = Path(__file__).resolve().parent
+_ROOT       = _HERE.parent.parent.parent
+INDEX_FILE  = _ROOT / "data/indexes/vector/index.faiss"
+META_FILE   = _ROOT / "data/indexes/vector/meta.json"
+ID_MAP_FILE = _ROOT / "data/indexes/vector/id_map.json"
 
 DEFAULT_MODEL = "all-MiniLM-L6-v2"
 
