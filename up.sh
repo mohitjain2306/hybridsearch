@@ -283,7 +283,7 @@ info "API server started (PID $UVICORN_PID) — logs → uvicorn.log"
 
 header "── Step 8 · Waiting for API ──────────────────────────────────"
 
-MAX_TRIES=30
+MAX_TRIES=120
 TRIES=0
 API_READY=false
 
