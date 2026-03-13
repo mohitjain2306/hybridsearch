@@ -1,0 +1,182 @@
+# .github/workflows/ci.yml
+# CI/CD pipeline for Hybrid Search Engine
+#
+# Triggers:
+#   - Every push to main
+#   - Every pull request targeting main
+#
+# Jobs:
+#   1. test    — run pytest inside the backend
+#   2. build   — build both Docker images (verifies Dockerfiles are valid)
+#   3. publish — push images to GitHub Container Registry (main branch only)
+#
+# Required GitHub secrets (Settings → Secrets → Actions):
+#   None for testing and building.
+#   For publishing you need write access to GHCR — the default GITHUB_TOKEN
+#   already has this when you enable "Read and write permissions" under
+#   Settings → Actions → General → Workflow permissions.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same branch to save CI minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  # Images are published as ghcr.io/<owner>/<repo>-api and -dashboard
+  IMAGE_BASE: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+
+jobs:
+
+  # ── 1. Test ───────────────────────────────────────────────────────────────
+  test:
+    name: Run pytest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Install CPU-only torch
+        run: |
+          pip install torch==2.6.0 \
+            --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests with coverage
+        working-directory: backend
+        env:
+          # Give tests minimal env so no real files are needed
+          BM25_INDEX_DIR: /tmp/bm25
+          VECTOR_INDEX_DIR: /tmp/vector
+          DB_PATH: /tmp/test.db
+          DOCS_PATH: /tmp/docs.jsonl
+          EMBEDDING_DEVICE: cpu
+        run: |
+          pytest \
+            --tb=short \
+            --cov=app \
+            --cov-report=term-missing \
+            --cov-report=xml:coverage.xml \
+            -q
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: backend/coverage.xml
+
+  # ── 2. Build Docker images ────────────────────────────────────────────────
+  build:
+    name: Build Docker images
+    runs-on: ubuntu-latest
+    needs: test           # only build if tests pass
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: false
+          tags: hybridsearch-api:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build dashboard image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: false
+          tags: hybridsearch-dashboard:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ── 3. Publish to GHCR (main branch only) ────────────────────────────────
+  publish:
+    name: Publish images to GHCR
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: read
+      packages: write   # needed to push to GHCR
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract image metadata (API)
+        id: meta-api
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_BASE }}-api
+          tags: |
+            type=sha,prefix=sha-
+            type=raw,value=latest
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-api.outputs.tags }}
+          labels: ${{ steps.meta-api.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Extract image metadata (dashboard)
+        id: meta-dashboard
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_BASE }}-dashboard
+          tags: |
+            type=sha,prefix=sha-
+            type=raw,value=latest
+
+      - name: Build and push dashboard image
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-dashboard.outputs.tags }}
+          labels: ${{ steps.meta-dashboard.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

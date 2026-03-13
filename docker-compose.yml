@@ -1,0 +1,67 @@
+# docker-compose.yml
+# Starts the API and the Streamlit dashboard in separate containers.
+#
+# Usage:
+#   docker compose up --build          # build images and start everything
+#   docker compose up -d               # run in the background
+#   docker compose logs -f api         # tail API logs
+#   docker compose down                # stop and remove containers
+#   docker compose down -v             # also remove named volumes
+
+services:
+
+  # ── API ───────────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .          # repo root (so COPY ../requirements.txt works)
+      dockerfile: backend/Dockerfile
+    image: hybridsearch-api:latest
+    container_name: hybridsearch-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    env_file:
+      - .env
+    environment:
+      # Paths inside the container — override .env defaults
+      DB_PATH: /data/search_logs.db
+      BM25_INDEX_DIR: /data/indexes/bm25
+      VECTOR_INDEX_DIR: /data/indexes/vector
+      DOCS_PATH: /data/processed/docs.jsonl
+      RAW_DOCS_DIR: /data/raw
+      QRELS_PATH: /data/eval/qrels.json
+      METRICS_DIR: /data/metrics
+    volumes:
+      # Persist indexes, docs, DB, and metrics across container restarts.
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  # ── Dashboard ─────────────────────────────────────────────────────────────
+  dashboard:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    image: hybridsearch-dashboard:latest
+    container_name: hybridsearch-dashboard
+    restart: unless-stopped
+    ports:
+      - "${STREAMLIT_PORT:-8501}:8501"
+    env_file:
+      - .env
+    environment:
+      # Point the dashboard at the API service by its docker-compose hostname
+      API_URL: http://api:8000
+      # Metrics CSV is on the shared volume
+      METRICS_CSV: /data/metrics/experiments.csv
+    volumes:
+      # Read-only access to the shared data volume for the metrics CSV
+      - ./data:/data:ro
+    depends_on:
+      api:
+        condition: service_healthy
+

@@ -309,3 +309,48 @@ hybridsearch/
 - **No paid services** — everything runs locally.
 - **No hardcoded paths** — all paths relative to repo root via `SCRIPT_DIR` in `up.sh`.
 - **Reviewer time** — fresh clone to running system in under 5 minutes.
+
+---
+
+## Docker
+
+Run the full stack in containers — no Python install required on your host.
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+| Service | URL |
+|---|---|
+| Dashboard | http://localhost:8501 |
+| API | http://localhost:8000 |
+| Swagger UI | http://localhost:8000/docs |
+
+The first build downloads and installs all Python dependencies including CPU-only torch — this takes a few minutes but subsequent builds are fast thanks to Docker layer caching.
+
+**Useful commands:**
+
+```bash
+docker compose up -d               # run in the background
+docker compose logs -f api         # tail API logs
+docker compose logs -f dashboard   # tail dashboard logs
+docker compose down                # stop containers
+docker compose down -v             # stop containers and delete data volume
+```
+
+Data (indexes, SQLite DB, processed docs) is stored in a Docker named volume (`search_data`) so it survives container restarts. To reset everything, run `docker compose down -v`.
+
+---
+
+## CI/CD (GitHub Actions)
+
+The pipeline at `.github/workflows/ci.yml` runs on every push and PR to `main`:
+
+| Job | Trigger | What it does |
+|---|---|---|
+| **test** | every push / PR | Runs pytest with coverage |
+| **build** | after tests pass | Builds both Docker images |
+| **publish** | push to main only | Pushes images to GitHub Container Registry |
+
+Images are published as `ghcr.io/<your-username>/hybridsearch-api:latest` and `-dashboard:latest`. No secrets needed — uses the default `GITHUB_TOKEN`. Enable **"Read and write permissions"** under Settings → Actions → General → Workflow permissions.

@@ -1,5 +1,7 @@
 # frontend/app.py
 
+import os
+
 import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
@@ -7,8 +9,17 @@ import pandas as pd
 import requests
 from datetime import datetime
 
-API_BASE = "http://localhost:8000/api/v1"
-HEALTH_URL = "http://localhost:8000/api/v1/health"
+# API_URL env var is set to "http://api:8000" by docker-compose.
+# Falls back to localhost for running outside Docker (./up.sh).
+_API_ROOT = os.environ.get("API_URL", "http://localhost:8000")
+API_BASE   = f"{_API_ROOT}/api/v1"
+HEALTH_URL = f"{_API_ROOT}/api/v1/health"
+
+# Metrics CSV — mounted at /data/metrics inside Docker, relative path locally.
+METRICS_CSV = os.environ.get(
+    "METRICS_CSV",
+    os.path.join(os.path.dirname(__file__), "..", "data", "metrics", "experiments.csv"),
+)
 
 CATEGORIES = [
     "all", "space", "medicine", "technology", "science", "history",
@@ -31,7 +42,7 @@ def api_get(path: str, params: dict = None) -> dict | None:
         r.raise_for_status()
         return r.json()
     except requests.exceptions.ConnectionError:
-        st.error("Cannot reach API at http://localhost:8000 — is it running?")
+        st.error(f"Cannot reach API at {_API_ROOT} — is it running?")
     except requests.exceptions.HTTPError as e:
         st.error(f"API error {e.response.status_code}: {e.response.text}")
     except Exception as e:
@@ -45,7 +56,7 @@ def api_post(path: str, payload: dict) -> dict | None:
         r.raise_for_status()
         return r.json()
     except requests.exceptions.ConnectionError:
-        st.error("Cannot reach API at http://localhost:8000 — is it running?")
+        st.error(f"Cannot reach API at {_API_ROOT} — is it running?")
     except requests.exceptions.HTTPError as e:
         st.error(f"API error {e.response.status_code}: {e.response.text}")
     except Exception as e:
@@ -300,7 +311,7 @@ elif page == "Evaluation":
     st.header("Evaluation")
 
     import os
-    csv_path = os.path.join(os.path.dirname(__file__), "..", "data", "metrics", "experiments.csv")
+    csv_path = METRICS_CSV
     try:
         df_eval = pd.read_csv(csv_path)
     except FileNotFoundError:

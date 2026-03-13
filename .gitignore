@@ -11,3 +11,6 @@ __pycache__/
 *.db-shm
 *.db-wal
 demo.sh
+
+# Docker
+.docker/
