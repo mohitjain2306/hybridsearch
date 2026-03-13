@@ -91,6 +91,26 @@ The dashboard Evaluation page reads this file and renders nDCG/Recall/MRR trend 
 
 ## API Reference
 
+> **Before running any API commands below, make sure the app is running first:**
+> ```bash
+> # Option 1 — local
+> bash up.sh
+>
+> # Option 2 — Docker
+> docker compose up -d
+> ```
+> Then open a **new terminal** and run the commands below.
+
+> **Before running any API commands below, make sure the app is running first:**
+> ```bash
+> # Option 1 — local
+> bash up.sh
+>
+> # Option 2 — Docker
+> docker compose up -d
+> ```
+> Then open a **new terminal** and run the commands below.
+
 ### `GET /api/v1/health`
 ```bash
 curl http://localhost:8000/api/v1/health
