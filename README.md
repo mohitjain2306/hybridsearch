@@ -312,10 +312,15 @@ hybridsearch/
 
 ---
 
+
+---
+
+
+---
+
 ## Docker
 
 Run the full stack in containers — no Python install required on your host.
-
 ```bash
 cp .env.example .env
 docker compose up --build
@@ -330,27 +335,38 @@ docker compose up --build
 The first build downloads and installs all Python dependencies including CPU-only torch — this takes a few minutes but subsequent builds are fast thanks to Docker layer caching.
 
 **Useful commands:**
-
 ```bash
 docker compose up -d               # run in the background
 docker compose logs -f api         # tail API logs
 docker compose logs -f dashboard   # tail dashboard logs
 docker compose down                # stop containers
-docker compose down -v             # stop containers and delete data volume
 ```
 
-Data (indexes, SQLite DB, processed docs) is stored in a Docker named volume (`search_data`) so it survives container restarts. To reset everything, run `docker compose down -v`.
+Data (indexes, SQLite DB, processed docs) is served directly from the repo's `data/` folder via a bind mount — pre-built indexes are available immediately on first start, no rebuild needed.
 
 ---
 
 ## CI/CD (GitHub Actions)
 
-The pipeline at `.github/workflows/ci.yml` runs on every push and PR to `main`:
+The pipeline at `.github/workflows/ci.yml` runs automatically on every push and PR to `main`:
 
 | Job | Trigger | What it does |
 |---|---|---|
 | **test** | every push / PR | Runs pytest with coverage |
 | **build** | after tests pass | Builds both Docker images |
-| **publish** | push to main only | Pushes images to GitHub Container Registry |
+| **publish** | push to main only | Pushes images to Docker Hub |
 
-Images are published as `ghcr.io/<your-username>/hybridsearch-api:latest` and `-dashboard:latest`. No secrets needed — uses the default `GITHUB_TOKEN`. Enable **"Read and write permissions"** under Settings → Actions → General → Workflow permissions.
+Images are published to Docker Hub as:
+```
+mohitjain2306/hybridsearch-api:latest
+mohitjain2306/hybridsearch-dashboard:latest
+```
+
+Each commit also gets a unique `:<git-sha>` tag so you can pin to exact versions.
+
+**Required GitHub secrets** (Settings → Secrets → Actions):
+
+| Secret | Value |
+|---|---|
+| `DOCKERHUB_USERNAME` | your Docker Hub username |
+| `DOCKERHUB_TOKEN` | Docker Hub access token |
