@@ -93,10 +93,12 @@ The dashboard Evaluation page reads this file and renders nDCG/Recall/MRR trend 
 
 > **Before running any API commands below, make sure the app is running first:**
 > ```bash
-> # Option 1 — local
+> # Option 1 — local (either command works)
+> ./up.sh
+> # or
 > bash up.sh
->
-> # Option 2 — Docker
+> 
+> # Option 2 — Docker (runs in background, no second terminal needed)
 > docker compose up -d
 > ```
 > Then open a **new terminal** and run the commands below.
