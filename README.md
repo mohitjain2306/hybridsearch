@@ -67,13 +67,13 @@ cd backend
 source ../.venv/bin/activate
 
 # Generate qrels (only needed if eval/qrels.json is missing)
-python -m app.generate_qrels
+python -m app.generate_qrels --out ../eval/qrels.json
 
 # Run sweep across 5 alpha values
-python -m app.eval
+python -m app.eval --qrels ../eval/qrels.json
 
 # Custom alphas and cutoff
-python -m app.eval --alphas 0.0 0.25 0.5 0.75 1.0 --k 10
+python -m app.eval --alphas 0.0 0.25 0.5 0.75 1.0 --k 10 --qrels ../eval/qrels.json
 ```
 
 Results are appended to `data/metrics/experiments.csv` with timestamp and git commit:
