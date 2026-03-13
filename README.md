@@ -248,6 +248,7 @@ Migrations are versioned in `app/db.py` via a `schema_meta` table — see Scenar
 ```
 hybridsearch/
 ├── backend/
+│   ├── Dockerfile               # API container image
 │   ├── app/
 │   │   ├── main.py              # FastAPI app + lifespan
 │   │   ├── dependencies.py      # get_search_engine(), get_db()
@@ -275,6 +276,7 @@ hybridsearch/
 │       ├── test_ingest.py       # preprocessing + JSONL output
 │       └── test_api.py          # FastAPI contract tests (TestClient)
 ├── frontend/
+│   ├── Dockerfile               # Dashboard container image
 │   └── dashboard.py             # Streamlit: Search / KPIs / Eval / Debug
 ├── data/
 │   ├── raw/                     # drop custom .txt/.md files here
@@ -292,10 +294,6 @@ hybridsearch/
 │   ├── break_fix_log.md         # 3 induced failure scenarios + fixes
 │   ├── api.md
 │   └── evaluation.md
-├── backend/
-│   └── Dockerfile               # API container image
-├── frontend/
-│   └── Dockerfile               # Dashboard container image
 ├── .github/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions: test → build → publish
