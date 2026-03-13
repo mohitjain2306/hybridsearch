@@ -67,7 +67,7 @@ cd backend
 source ../.venv/bin/activate
 
 # Generate qrels (only needed if eval/qrels.json is missing)
-python -m app.generate_qrels --out ../eval/qrels.json
+python -m app.generate_qrels --docs ../data/processed/docs.jsonl --out ../eval/qrels.json
 
 # Run sweep across 5 alpha values
 python -m app.eval --qrels ../eval/qrels.json
