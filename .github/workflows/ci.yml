@@ -115,8 +115,8 @@ jobs:
           file: backend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch-api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch-api:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch:api
+            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch:api-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -127,7 +127,7 @@ jobs:
           file: frontend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch-dashboard:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch-dashboard:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch:dashboard
+            ${{ secrets.DOCKERHUB_USERNAME }}/hybridsearch:dashboard-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

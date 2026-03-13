@@ -378,8 +378,8 @@ The pipeline at `.github/workflows/ci.yml` runs automatically on every push and 
 
 Images are published to Docker Hub as:
 ```
-mohitjain2306/hybridsearch-api:latest
-mohitjain2306/hybridsearch-dashboard:latest
+mohitjain2306/hybridsearch:api
+mohitjain2306/hybridsearch:dashboard
 ```
 
 Each commit also gets a unique `:<git-sha>` tag so you can pin to exact versions.
