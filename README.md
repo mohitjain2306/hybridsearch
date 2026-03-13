@@ -290,8 +290,18 @@ hybridsearch/
 │   ├── break_fix_log.md         # 3 induced failure scenarios + fixes
 │   ├── api.md
 │   └── evaluation.md
-├── up.sh                        # one-command start
-├── down.sh                      # one-command stop
+├── backend/
+│   └── Dockerfile               # API container image
+├── frontend/
+│   └── Dockerfile               # Dashboard container image
+├── .github/
+│   └── workflows/
+│       └── ci.yml               # GitHub Actions: test → build → publish
+├── docker-compose.yml           # orchestrates API + dashboard containers
+├── .dockerignore                # keeps Docker build context lean
+├── Makefile                     # shortcuts: make test, make docker-up, etc.
+├── up.sh                        # one-command local start
+├── down.sh                      # one-command local stop
 ├── pytest.ini
 ├── requirements.txt
 ├── .env.example
